@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech Assistant</title>
+    <style>
+        body 
+{
+background-image: url(https://images.unsplash.com/photo-1553356084-58ef4a67b2a7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60);
+}
+        h1 {color: crimson;}
+        .talk{background-color: cyan;
+                border-radius: 20px;}
+        .content{color: cyan;}
+     </style>
+</head>
+<body>
+    <h1> Hi ! I Am A Virtual Assistant That Performs Browser Tasks </h1>
+    <button class="talk">Talk</button>
+    <h3 class="content"></h3>
+    <script>
+        // The JavaScript Part Starts
+        const btn = document.querySelector('.talk');
+        const content = document.querySelector('.content');
+
+     
+        const YouTube = [
+            'opening youtube sir'
+     ];
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition =  new SpeechRecognition();
+
+        recognition.onstart = function(){
+            console.log('How Can I Help You ?')
+        }
+        recognition.onresult = function (event) {
+            const current = event.resultIndex;
+
+            const transcript = event.results[current][0].transcript;
+            content.textContent = transcript;
+            readOutLoud(transcript);
+
+        };
+
+        btn.addEventListener('click', () =>{
+            recognition.start();
+        });
+
+
+        function readOutLoud(message){
+            const speech = new SpeechSynthesisUtterance();
+
+            speech.text = 'I am not able to understand ,sir';
+
+
+            if(message.includes('YouTube')){
+                const finalText = 
+                    YouTube[Math.floor(Math.random()*YouTube.length)];
+                speech.text = finalText; 
+                window.open('https://www.youtube.com/')
+                }
+            speech.volume = 1;
+            speech.rate = 1.1;
+            speech.pitch = 1;
+
+            window.speechSynthesis.speak(speech);
+        }
+    </script>
+</body>
+</html>
